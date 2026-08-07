@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Success Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="dossier">
+        <header class="dossier-header">
+            <div class="seal">IS</div>
+            <div class="header-text">
+                <h1>Internship Success Predictor</h1>
+                <p class="subtitle">Campus Placement Assessment &mdash; Candidate Record</p>
+            </div>
+        </header>
+
+        <form id="predictForm">
+            <fieldset>
+                <legend>Section A &mdash; Academic Record</legend>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="CGPA">CGPA</label>
+                        <input type="number" step="0.1" min="0" max="10" id="CGPA" required>
+                    </div>
+                    <div class="field">
+                        <label for="SSC_Marks">SSC Marks</label>
+                        <input type="number" min="0" max="100" id="SSC_Marks" required>
+                    </div>
+                    <div class="field">
+                        <label for="HSC_Marks">HSC Marks</label>
+                        <input type="number" min="0" max="100" id="HSC_Marks" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Section B &mdash; Experience</legend>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="Internships">Internships</label>
+                        <input type="number" min="0" id="Internships" required>
+                    </div>
+                    <div class="field">
+                        <label for="Projects">Projects</label>
+                        <input type="number" min="0" id="Projects" required>
+                    </div>
+                    <div class="field">
+                        <label for="WorkshopsCertifications">Workshops / Certifications</label>
+                        <input type="number" min="0" id="WorkshopsCertifications" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Section C &mdash; Aptitude &amp; Skills</legend>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="AptitudeTestScore">Aptitude Test Score</label>
+                        <input type="number" min="0" max="100" id="AptitudeTestScore" required>
+                    </div>
+                    <div class="field">
+                        <label for="SoftSkillsRating">Soft Skills Rating</label>
+                        <input type="number" step="0.1" min="0" max="5" id="SoftSkillsRating" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Section D &mdash; Program Participation</legend>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="ExtracurricularActivities">Extracurricular Activities</label>
+                        <select id="ExtracurricularActivities">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="PlacementTraining">Placement Training</label>
+                        <select id="PlacementTraining">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="submit-btn">Assess Candidate</button>
+        </form>
+
+        <div id="resultWrap" class="result-wrap">
+            <div id="result" class="stamp"></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+:root {
+    --paper: #EFEDE6;
+    --ink: #1C2B4A;
+    --brass: #A6822F;
+    --green: #2F6F4E;
+    --clay: #A6432E;
+    --hairline: #C9C2AE;
+    --card: #F8F7F2;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 40px 20px;
+    background: var(--paper);
+    background-image:
+        linear-gradient(var(--hairline) 1px, transparent 1px),
+        linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-position: center;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+}
+
+.dossier {
+    background: var(--card);
+    border: 1.5px solid var(--ink);
+    max-width: 680px;
+    width: 100%;
+    padding: 0;
+    box-shadow: 6px 6px 0 var(--brass);
+}
+
+.dossier-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 28px 32px;
+    border-bottom: 1.5px solid var(--ink);
+}
+
+.seal {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid var(--brass);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--brass);
+}
+
+.dossier-header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.01em;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--brass);
+}
+
+form {
+    padding: 8px 32px 32px 32px;
+}
+
+fieldset {
+    border: none;
+    border-top: 1px solid var(--hairline);
+    padding: 20px 0 4px 0;
+    margin: 0;
+}
+
+legend {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--brass);
+    padding: 0 6px 0 0;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 20px;
+    margin-top: 12px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.field input,
+.field select {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    padding: 9px 10px;
+    border: 1px solid var(--hairline);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 2px;
+}
+
+.field select {
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.field input:focus,
+.field select:focus {
+    outline: none;
+    border-color: var(--brass);
+    box-shadow: 0 0 0 2px rgba(166, 130, 47, 0.25);
+}
+
+.submit-btn {
+    margin-top: 28px;
+    width: 100%;
+    padding: 14px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.submit-btn:hover {
+    background: var(--brass);
+}
+
+.result-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 0 32px 36px 32px;
+    min-height: 90px;
+    align-items: center;
+}
+
+.stamp {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border: 3px double;
+    opacity: 0;
+    transform: rotate(-8deg) scale(0.7);
+    transition: none;
+}
+
+.stamp.show {
+    animation: stamp-press 0.35s ease-out forwards;
+}
+
+.stamp.placed {
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.stamp.not-placed {
+    color: var(--clay);
+    border-color: var(--clay);
+}
+
+@keyframes stamp-press {
+    0% {
+        opacity: 0;
+        transform: rotate(-8deg) scale(1.4);
+    }
+    60% {
+        opacity: 1;
+        transform: rotate(-8deg) scale(0.92);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(-8deg) scale(1);
+    }
+}
+
+@media (max-width: 560px) {
+    .field-grid {
+        grid-template-columns: 1fr;
+    }
+    .dossier-header {
+        padding: 22px;
+    }
+    form {
+        padding: 8px 22px 26px 22px;
+    }
+}
+/* Page-load entrance sequence */
+.dossier-header,
+fieldset,
+.submit-btn {
+    opacity: 0;
+    animation: rise-in 0.5s ease-out forwards;
+}
+
+.dossier-header { animation-delay: 0.05s; }
+fieldset:nth-of-type(1) { animation-delay: 0.15s; }
+fieldset:nth-of-type(2) { animation-delay: 0.25s; }
+fieldset:nth-of-type(3) { animation-delay: 0.35s; }
+fieldset:nth-of-type(4) { animation-delay: 0.45s; }
+.submit-btn { animation-delay: 0.55s; }
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.seal {
+    animation: seal-spin 0.6s ease-out 0.05s both;
+}
+
+@keyframes seal-spin {
+    from {
+        opacity: 0;
+        transform: rotate(-45deg) scale(0.6);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+/* Respect users who've asked for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .dossier-header,
+    fieldset,
+    .submit-btn,
+    .seal,
+    .stamp.show {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
