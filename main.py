@@ -42,4 +42,7 @@ def predict(student : StudentData):
         student.HSC_Marks
     ]])
     prediction = model.predict(input_data)
-    return {"placement_status": "Placed" if prediction[0] == 1 else "Not Placed"}
+    probability = model.predict_proba(input_data)[0][1]
+    return {"placement_status": "Placed" if prediction[0] == 1 else "Not Placed",
+            "confidence": round(float(probability)*100,2)
+            }
