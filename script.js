@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollY = window.scrollY;
             const windowH = window.innerHeight;
 
-            // ── Hero blur: 0 at top → max blur when scrollContent is fully in view ──
+            // â”€â”€ Hero blur: 0 at top â†’ max blur when scrollContent is fully in view â”€â”€
             // Start blurring once user scrolls ~20% of viewport
             const blurStart = windowH * 0.15;
             const blurEnd = windowH * 0.85;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 heroSection.style.opacity = opacityAmount;
             }
 
-            // ── Scroll-reveal elements ──
+            // â”€â”€ Scroll-reveal elements â”€â”€
             revealElements.forEach(el => {
                 const rect = el.getBoundingClientRect();
                 const triggerPoint = windowH * 0.85;
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // ── Hide scroll indicator ──
+            // â”€â”€ Hide scroll indicator â”€â”€
             const scrollIndicator = document.querySelector('.scroll-indicator');
             if (scrollIndicator) {
                 if (scrollY > 80) {
@@ -93,14 +93,79 @@ document.addEventListener('DOMContentLoaded', () => {
     //  SECTION COMPLETION TRACKING
     // ============================================================
     function checkSectionCompletion() {
+        let previousAllCompleted = true;
         sectionFields.forEach((fields, idx) => {
             const statusEl = document.getElementById(`status${idx}`);
             const tabCircle = tabCircles[idx];
+            const currentPanel = panels[idx];
 
-            const allFilled = fields.every(fieldId => {
-                const el = document.getElementById(fieldId);
-                return el && el.value.trim() !== '' && el.value.trim() !== 'Select';
+            const inputs = currentPanel.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (!previousAllCompleted) {
+                    input.disabled = true;
+                    input.style.cursor = 'not-allowed';
+                    input.style.opacity = '0.6';
+                } else {
+                    input.disabled = false;
+                    input.style.cursor = 'text';
+                    input.style.opacity = '1';
+                }
             });
+
+            const customSelects = currentPanel.querySelectorAll('.custom-select');
+            customSelects.forEach(sel => {
+                if (!previousAllCompleted) {
+                    sel.style.pointerEvents = 'none';
+                    sel.style.opacity = '0.6';
+                } else {
+                    sel.style.pointerEvents = 'auto';
+                    sel.style.opacity = '1';
+                }
+            });
+
+            let allFilled = true;
+            for (const fieldId of fields) {
+                const el = document.getElementById(fieldId);
+                if (!el || el.value.trim() === '' || el.value.trim() === 'Select') {
+                    allFilled = false;
+                    break;
+                }
+                const val = parseFloat(el.value);
+                if (fieldId === 'CGPA' && (val < 1 || val > 10)) {
+                    allFilled = false;
+                    break;
+                }
+                if ((fieldId === 'SSC_Marks' || fieldId === 'HSC_Marks') && (val < 25 || val > 100)) {
+                    allFilled = false;
+                    break;
+                }
+                if (fieldId === 'Internships' && (val < 1 || val > 10)) {
+                    allFilled = false;
+                    break;
+                }
+                if (fieldId === 'Projects' && (val < 1 || val > 30)) {
+                    allFilled = false;
+                    break;
+                }
+                if (fieldId === 'WorkshopsCertifications' && (val < 1 || val > 50)) {
+                    allFilled = false;
+                    break;
+                }
+                if (fieldId === 'AptitudeTestScore' && (val < 0 || val > 100)) {
+                    allFilled = false;
+                    break;
+                }
+                if (fieldId === 'SoftSkillsRating' && (val < 1 || val > 5)) {
+                    allFilled = false;
+                    break;
+                }
+            }
+
+            const nextBtn = panels[idx].querySelector('[data-next]');
+            if (nextBtn) {
+                nextBtn.style.opacity = allFilled ? '1' : '0.5';
+                nextBtn.removeAttribute('disabled');
+            }
 
             if (allFilled) {
                 tabCircle.classList.add('completed');
@@ -118,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     statusEl.innerHTML = '<span class="status-dot"></span> Pending';
                     statusEl.classList.remove('completed');
                 }
+                previousAllCompleted = false;
             }
         });
 
@@ -141,10 +207,66 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('change', checkSectionCompletion);
     });
 
+    const cgpaInput = document.getElementById('CGPA');
+    if (cgpaInput) {
+        cgpaInput.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            const warningMsg = document.getElementById('cgpa-warning');
+            if (warningMsg) {
+                if (e.target.value !== '' && (val < 1 || val > 10)) {
+                    warningMsg.style.display = 'block';
+                } else {
+                    warningMsg.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    const validatePercentage = (inputId, warningId) => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                const warningMsg = document.getElementById(warningId);
+                if (warningMsg) {
+                    if (e.target.value !== '' && (val < 25 || val > 100)) {
+                        warningMsg.style.display = 'block';
+                    } else {
+                        warningMsg.style.display = 'none';
+                    }
+                }
+            });
+        }
+    };
+    validatePercentage('SSC_Marks', 'ssc-warning');
+    validatePercentage('HSC_Marks', 'hsc-warning');
+
+    const validateCount = (inputId, warningId, min, max) => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                const warningMsg = document.getElementById(warningId);
+                if (warningMsg) {
+                    if (e.target.value !== '' && (val < min || val > max)) {
+                        warningMsg.style.display = 'block';
+                    } else {
+                        warningMsg.style.display = 'none';
+                    }
+                }
+            });
+        }
+    };
+    validateCount('Internships', 'internships-warning', 1, 10);
+    validateCount('Projects', 'projects-warning', 1, 30);
+    validateCount('WorkshopsCertifications', 'workshops-warning', 1, 50);
+    validateCount('AptitudeTestScore', 'aptitude-warning', 0, 100);
+    validateCount('SoftSkillsRating', 'softskills-warning', 1, 5);
+
     checkSectionCompletion();
 
     // ============================================================
-    //  TAB SWITCHING — inline expanding-step morph
+    //  TAB SWITCHING â€” inline expanding-step morph
     // ============================================================
     function switchToTab(newTab) {
         if (isTransitioning || newTab === activeTab || newTab < 0 || newTab >= totalTabs) return;
@@ -248,6 +370,23 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-next]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
+            if (!tabCircles[activeTab].classList.contains('completed')) {
+                let errorMsg = document.getElementById('general-error-msg');
+                if (!errorMsg) {
+                    errorMsg = document.createElement('div');
+                    errorMsg.id = 'general-error-msg';
+                    errorMsg.style.color = '#ff6b6b';
+                    errorMsg.style.fontSize = '0.9rem';
+                    errorMsg.style.fontWeight = '500';
+                    errorMsg.style.marginTop = '12px';
+                    errorMsg.style.textAlign = 'center';
+                    errorMsg.textContent = 'Please give all the details correctly to continue.';
+                    btn.parentNode.appendChild(errorMsg);
+                }
+                errorMsg.style.display = 'block';
+                setTimeout(() => { if(errorMsg) errorMsg.style.display = 'none'; }, 3000);
+                return;
+            }
             switchToTab(parseInt(btn.dataset.next));
         });
     });
@@ -259,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Hero CTA — smooth scroll to content
+    // Hero CTA â€” smooth scroll to content
     if (startBtn) {
         startBtn.addEventListener('click', () => {
             if (scrollContent) {
@@ -322,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============================================================
-    //  INTERSECTION OBSERVER — hero title animation
+    //  INTERSECTION OBSERVER â€” hero title animation
     // ============================================================
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -335,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.reveal-up, .hero-main-title').forEach(el => observer.observe(el));
 
     // ============================================================
-    //  HERO TITLE — prefers-reduced-motion fallback
+    //  HERO TITLE â€” prefers-reduced-motion fallback
     // ============================================================
     const heroTitle = document.querySelector('.hero-main-title');
     if (heroTitle) {
@@ -377,8 +516,45 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================================
 const predictForm = document.getElementById('predictForm');
 if(predictForm) {
+    predictForm.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) {
+            e.preventDefault();
+            const currentPanel = e.target.closest('.morph-panel');
+            if (currentPanel) {
+                const nextBtn = currentPanel.querySelector('[data-next]');
+                if (nextBtn) {
+                    nextBtn.click();
+                } else {
+                    const submitBtn = currentPanel.querySelector('button[type="submit"]');
+                    if (submitBtn) submitBtn.click();
+                }
+            }
+        }
+    });
+
     predictForm.addEventListener('submit', async function(event) {
         event.preventDefault();
+
+        // Final safety check to ensure all form sections are truly completed
+        const allCompleted = Array.from(document.querySelectorAll('.tab-circle')).every(tab => tab.classList.contains('completed'));
+        if (!allCompleted) {
+            let errorMsg = document.getElementById('submit-error-msg');
+            if (!errorMsg) {
+                errorMsg = document.createElement('div');
+                errorMsg.id = 'submit-error-msg';
+                errorMsg.style.color = '#ff6b6b';
+                errorMsg.style.fontSize = '0.9rem';
+                errorMsg.style.fontWeight = '500';
+                errorMsg.style.marginTop = '12px';
+                errorMsg.style.textAlign = 'center';
+                errorMsg.textContent = 'Please complete all sections correctly before submitting.';
+                const submitBtn = document.querySelector('button[type="submit"]');
+                if (submitBtn) submitBtn.parentNode.appendChild(errorMsg);
+            }
+            errorMsg.style.display = 'block';
+            setTimeout(() => { if(errorMsg) errorMsg.style.display = 'none'; }, 3000);
+            return;
+        }
 
         const loadingOverlay = document.getElementById('loadingOverlay');
         const resultCard = document.getElementById('resultCard');
@@ -432,8 +608,8 @@ if(predictForm) {
                 resultStatus.textContent = isPlaced ? 'Placed' : 'Not Placed';
                 resultCard.classList.add(isPlaced ? 'placed' : 'not-placed');
                 resultSubtitle.textContent = isPlaced
-                    ? 'Strong candidate profile — ready for placement!'
-                    : 'Keep building your skills — you\'re getting there!';
+                    ? 'Strong candidate profile â€” ready for placement!'
+                    : 'Keep building your skills â€” you\'re getting there!';
 
                 const score = Math.round(result.confidence);
                 populateResultInsights(data, isPlaced);
@@ -527,8 +703,8 @@ function populateResultInsights(data, isPlaced) {
     });
 
     const highlights = isPlaced
-        ? ['✦ Strong placement fit', 'Interview-ready profile', 'Positive model outcome']
-        : ['✦ Growth path identified', 'Build experience depth', 'Reassess after upskilling'];
+        ? ['âœ¦ Strong placement fit', 'Interview-ready profile', 'Positive model outcome']
+        : ['âœ¦ Growth path identified', 'Build experience depth', 'Reassess after upskilling'];
     const tags = document.getElementById('resultTags');
     tags.replaceChildren();
     highlights.forEach((highlight) => {

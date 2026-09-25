@@ -23,7 +23,7 @@
     <!-- Main App Container -->
     <div class="app-container">
 
-        <!-- 1. Hero Landing Section — sticks behind and blurs on scroll -->
+        <!-- 1. Hero Landing Section Ã¢â‚¬â€ sticks behind and blurs on scroll -->
         <section class="hero-section" id="heroSection">
             <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
                 <source src="hero-background.mp4" type="video/mp4">
@@ -53,7 +53,7 @@
             </div>
         </section>
 
-        <!-- 2. Scroll-reveal content area — pops up over the blurred hero -->
+        <!-- 2. Scroll-reveal content area Ã¢â‚¬â€ pops up over the blurred hero -->
         <div class="scroll-content" id="scrollContent">
 
             <!-- Interactive Tabs Form Section -->
@@ -82,7 +82,7 @@
                         <span class="tab-circle__number">1</span>
                         <span class="tab-circle__label">Academic</span>
                         <span class="tab-circle__summary">Marks &amp; grades</span>
-                        <span class="tab-circle__check">✓</span>
+                        <span class="tab-circle__check">&#10004;</span>
                         <svg class="tab-circle__arrow" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
                     <div class="tab-connector"></div>
@@ -90,7 +90,7 @@
                         <span class="tab-circle__number">2</span>
                         <span class="tab-circle__label">Experience</span>
                         <span class="tab-circle__summary">Projects &amp; internships</span>
-                        <span class="tab-circle__check">✓</span>
+                        <span class="tab-circle__check">&#10004;</span>
                         <svg class="tab-circle__arrow" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
                     <div class="tab-connector"></div>
@@ -98,7 +98,7 @@
                         <span class="tab-circle__number">3</span>
                         <span class="tab-circle__label">Aptitude</span>
                         <span class="tab-circle__summary">Skills assessment</span>
-                        <span class="tab-circle__check">✓</span>
+                        <span class="tab-circle__check">&#10004;</span>
                         <svg class="tab-circle__arrow" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
                     <div class="tab-connector"></div>
@@ -106,7 +106,7 @@
                         <span class="tab-circle__number">4</span>
                         <span class="tab-circle__label">Activities</span>
                         <span class="tab-circle__summary">Training &amp; involvement</span>
-                        <span class="tab-circle__check">✓</span>
+                        <span class="tab-circle__check">&#10004;</span>
                         <svg class="tab-circle__arrow" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
                 </div>
@@ -132,28 +132,31 @@
                                         <div class="input-group">
                                             <label class="input-label" for="CGPA">CGPA</label>
                                             <div class="input-wrap">
-                                                <input type="number" step="0.1" min="0" max="10" id="CGPA" placeholder="e.g. 8.5" required>
+                                                <input type="number" step="0.1" min="1" max="10" id="CGPA" placeholder="e.g. 8.5" required>
                                                 <span class="input-suffix">/ 10</span>
                                             </div>
+                                            <div id="cgpa-warning" style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:6px; font-weight:500;">CGPA must be between 1 and 10.</div>
                                         </div>
                                         <div class="input-group">
                                             <label class="input-label" for="SSC_Marks">SSC Marks</label>
                                             <div class="input-wrap">
-                                                <input type="number" min="0" max="100" id="SSC_Marks" placeholder="e.g. 85" required>
+                                                <input type="number" min="25" max="100" id="SSC_Marks" placeholder="e.g. 85" required>
                                                 <span class="input-suffix">%</span>
                                             </div>
+                                            <div id="ssc-warning" style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:6px; font-weight:500;">Percentage must be between 25 and 100.</div>
                                         </div>
                                         <div class="input-group">
                                             <label class="input-label" for="HSC_Marks">HSC Marks</label>
                                             <div class="input-wrap">
-                                                <input type="number" min="0" max="100" id="HSC_Marks" placeholder="e.g. 78" required>
+                                                <input type="number" min="25" max="100" id="HSC_Marks" placeholder="e.g. 78" required>
                                                 <span class="input-suffix">%</span>
                                             </div>
+                                            <div id="hsc-warning" style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:6px; font-weight:500;">Percentage must be between 25 and 100.</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="morph-panel__actions">
-                                    <button type="button" class="panel-btn panel-btn--next" data-next="1">
+                                    <button type="button" class="panel-btn panel-btn--next" data-next="1" id="academic-continue-btn">
                                         Continue
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                                     </button>
@@ -179,23 +182,26 @@
                                         <div class="input-group">
                                             <label class="input-label" for="Internships">Internships</label>
                                             <div class="input-wrap">
-                                                <input type="number" min="0" id="Internships" placeholder="e.g. 2" required>
+                                                <input type="number" min="1" max="10" id="Internships" placeholder="e.g. 2" required>
                                                 <span class="input-suffix">count</span>
                                             </div>
+                                            <div id="internships-warning" style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:6px; font-weight:500;">Internships must be between 1 and 10.</div>
                                         </div>
                                         <div class="input-group">
                                             <label class="input-label" for="Projects">Projects</label>
                                             <div class="input-wrap">
-                                                <input type="number" min="0" id="Projects" placeholder="e.g. 5" required>
+                                                <input type="number" min="1" max="30" id="Projects" placeholder="e.g. 5" required>
                                                 <span class="input-suffix">count</span>
                                             </div>
+                                            <div id="projects-warning" style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:6px; font-weight:500;">Projects must be between 1 and 30.</div>
                                         </div>
                                         <div class="input-group">
                                             <label class="input-label" for="WorkshopsCertifications">Workshops / Certs</label>
                                             <div class="input-wrap">
-                                                <input type="number" min="0" id="WorkshopsCertifications" placeholder="e.g. 3" required>
+                                                <input type="number" min="1" max="50" id="WorkshopsCertifications" placeholder="e.g. 3" required>
                                                 <span class="input-suffix">count</span>
                                             </div>
+                                            <div id="workshops-warning" style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:6px; font-weight:500;">Workshops must be between 1 and 50.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -233,13 +239,15 @@
                                                 <input type="number" min="0" max="100" id="AptitudeTestScore" placeholder="e.g. 72" required>
                                                 <span class="input-suffix">/ 100</span>
                                             </div>
+                                            <div id="aptitude-warning" style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:6px; font-weight:500;">Score must be between 0 and 100.</div>
                                         </div>
                                         <div class="input-group">
                                             <label class="input-label" for="SoftSkillsRating">Soft Skills Rating</label>
                                             <div class="input-wrap">
-                                                <input type="number" step="0.1" min="0" max="5" id="SoftSkillsRating" placeholder="e.g. 4.2" required>
+                                                <input type="number" step="0.1" min="1" max="5" id="SoftSkillsRating" placeholder="e.g. 4.2" required>
                                                 <span class="input-suffix">/ 5</span>
                                             </div>
+                                            <div id="softskills-warning" style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:6px; font-weight:500;">Rating must be between 1 and 5.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -280,14 +288,14 @@
                                                 </button>
                                                 <ul class="custom-select__dropdown" role="listbox">
                                                     <li class="custom-select__option" data-value="Yes" role="option">
-                                                        <span class="custom-select__option-icon">✓</span>
+                                                        <span class="custom-select__option-icon">&#9989;</span>
                                                         <div>
                                                             <span class="custom-select__option-label">Yes</span>
                                                             <span class="custom-select__option-sub">Active in extracurriculars</span>
                                                         </div>
                                                     </li>
                                                     <li class="custom-select__option" data-value="No" role="option">
-                                                        <span class="custom-select__option-icon">✗</span>
+                                                        <span class="custom-select__option-icon">&#10060;</span>
                                                         <div>
                                                             <span class="custom-select__option-label">No</span>
                                                             <span class="custom-select__option-sub">No extracurricular participation</span>
@@ -310,14 +318,14 @@
                                                 </button>
                                                 <ul class="custom-select__dropdown" role="listbox">
                                                     <li class="custom-select__option" data-value="Yes" role="option">
-                                                        <span class="custom-select__option-icon">✓</span>
+                                                        <span class="custom-select__option-icon">&#9989;</span>
                                                         <div>
                                                             <span class="custom-select__option-label">Yes</span>
                                                             <span class="custom-select__option-sub">Completed training program</span>
                                                         </div>
                                                     </li>
                                                     <li class="custom-select__option" data-value="No" role="option">
-                                                        <span class="custom-select__option-icon">✗</span>
+                                                        <span class="custom-select__option-icon">&#10060;</span>
                                                         <div>
                                                             <span class="custom-select__option-label">No</span>
                                                             <span class="custom-select__option-sub">No formal training</span>
@@ -424,7 +432,7 @@
             </section>
 
             <footer class="card-footer scroll-reveal" data-reveal>
-                <p>Powered by machine learning · Built with care</p>
+                <p>Powered by machine learning Ã‚Â· Built with care</p>
             </footer>
         </div>
     </div>
@@ -432,3 +440,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+
