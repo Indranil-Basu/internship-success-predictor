@@ -2513,3 +2513,21 @@ input[type='number']::-webkit-outer-spin-button {
     margin-left: 0.15rem;
   }
 }
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+  /* Hide heavy 52MB video on mobile to save RAM/GPU and battery */
+  .hero-video {
+    display: none !important;
+  }
+  
+  /* Provide a fallback dark background for the hero section */
+  .hero-section {
+    background: linear-gradient(135deg, #1e1e24 0%, #3a3a45 100%) !important;
+  }
+
+  /* Disable all heavy glassmorphism blurs on mobile for buttery smooth scrolling */
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
